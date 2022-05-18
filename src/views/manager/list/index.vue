@@ -1,5 +1,13 @@
 <template>
   <div class="app-container">
+    <el-row class="mb-10">
+      <el-col>
+        <el-button type="primary" icon="el-icon-plus" size="small "
+          >新增管理员</el-button
+        >
+      </el-col>
+    </el-row>
+    <!-- 表格 -->
     <el-table v-loading="loading" border :data="tableData" style="width: 100%">
       <el-table-column align="center" type="index" label="序号" width="180">
       </el-table-column>
@@ -15,9 +23,12 @@
           scope.row.created_time | formatTime
         }}</template>
       </el-table-column>
-      <el-table-column align="center" prop="address" label="操作">
+      <el-table-column width="300" align="center" prop="address" label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+          <el-button
+            type="primary"
+            size="mini"
+            @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button
           >
           <el-button
@@ -29,6 +40,20 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <div class="flex justify-center mt-20">
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pagination.page"
+        :page-sizes="[5, 10, 20, 50]"
+        :page-size="pagination.size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="pagination.total"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -36,10 +61,21 @@
 import { getList } from "@/api/manager";
 import { parseTime } from "@/utils/index";
 export default {
+  name: "Manager",
   data() {
     return {
       loading: false,
+      // 表格数据
       tableData: [],
+      // 分页
+      pagination: {
+        // 总记录数
+        total: 0,
+        // 当前页码
+        page: 1,
+        // 页大小
+        size: 5,
+      },
     };
   },
   created() {
@@ -53,16 +89,27 @@ export default {
   methods: {
     async __init() {
       this.loading = true;
+      this.pagination.page = 1;
+      let { page, size } = this.pagination;
       let res = await getList({
-        page: 1,
-        limit: 10,
+        page,
+        limit: size,
       });
       this.loading = false;
       console.log("res", res);
-      this.tableData = res.data;
+      this.tableData = res.data.rows;
+      this.pagination.total = res.data.count;
     },
     handleEdit() {},
     handleDelete() {},
+    handleSizeChange(val) {
+      this.pagination.size = val;
+      this.__init();
+    },
+    handleCurrentChange(val) {
+      this.pagination.page = val;
+      this.__init();
+    },
   },
 };
 </script>
