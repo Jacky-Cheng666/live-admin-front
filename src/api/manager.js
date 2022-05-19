@@ -13,7 +13,7 @@ export function getList (data) {
     })
 }
 
-/**添加管理员账号 */
+/**添加管理员账号  */
 export function addManager (data) {
     const { username, password } = data
     return request({
