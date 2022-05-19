@@ -32,7 +32,7 @@ import topMenu from "@/components/topMenu";
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
-Vue.use(ElementUI)
+Vue.use(ElementUI, { size: 'medium' })
 Vue.component('top-menu', topMenu)
 
 Vue.config.productionTip = false

@@ -5,7 +5,7 @@
       <el-row class="mb-20">
         <el-col>
           <router-link to="/manager/create">
-            <el-button type="primary" icon="el-icon-plus" size="small ">新增管理员
+            <el-button type="primary" icon="el-icon-plus">新增管理员
             </el-button>
           </router-link>
         </el-col>
