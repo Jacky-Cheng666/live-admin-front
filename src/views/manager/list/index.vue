@@ -89,7 +89,6 @@ export default {
   methods: {
     async __init() {
       this.loading = true;
-      this.pagination.page = 1;
       let { page, size } = this.pagination;
       let res = await getList({
         page,
@@ -104,6 +103,7 @@ export default {
     handleDelete() {},
     handleSizeChange(val) {
       this.pagination.size = val;
+      this.pagination.page = 1;
       this.__init();
     },
     handleCurrentChange(val) {
