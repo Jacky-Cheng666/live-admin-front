@@ -60,9 +60,17 @@ export const constantRoutes = [
     component: Layout,
     children: [{
       path: 'index',
-      name: 'Manager',
+      name: 'ManagerIndex',
       component: () => import('@/views/manager/list/index'),
-        meta: { title: '管理员列表', icon: 'form' }
+      meta: { title: '管理员列表', icon: 'form' }
+    },
+    {
+      path: 'create',
+      name: 'ManagerCreate',
+      component: () => import('@/views/manager/create/index'),
+      meta: { title: '新增管理员', icon: 'form' },
+      hidden: true
+
     }]
   },
 
