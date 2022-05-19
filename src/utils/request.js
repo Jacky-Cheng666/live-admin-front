@@ -45,20 +45,20 @@ service.interceptors.response.use(
   response => {
 
     const res = response.data
-    // if the custom errcode is not 20000, it is judged as an error.
+    // if the custom errcode is not 0, it is judged as an error.
     if (res.errcode !== '0') {
       Message({
-        message: res.message || 'Error',
+        message: res.errmsg || 'Error',
         type: 'error',
         duration: 5 * 1000
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.errcode === '50008' || res.errcode === '50012' || res.errcode === '50014') {
+      if (res.errcode === '50003' || res.errcode === '50001' || res.errcode === '50002') {
         // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
+        MessageBox.confirm('您的登陆身份已过期，请重新登陆！', '提示', {
+          confirmButtonText: '重新登陆',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           store.dispatch('user/resetToken').then(() => {
@@ -66,7 +66,7 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.errmsg || 'Error'))
     } else {
       return res
     }
