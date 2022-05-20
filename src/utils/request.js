@@ -43,17 +43,18 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status errcode
    */
   response => {
-
-    const res = response.data
-    // if the custom errcode is not 0, it is judged as an error.
+    return response.data
+  },
+  /**http请求状态码不是200，都会经过这里 */
+  error => {
+    console.log('err', error.response.data) // for debug
+    const res = error.response.data
     if (res.errcode !== '0') {
       Message({
-        message: res.errmsg || 'Error',
+        message: res.errmsg || '响应错误',
         type: 'error',
         duration: 5 * 1000
       })
-
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.errcode === '50003' || res.errcode === '50001' || res.errcode === '50002') {
         // to re-login
         MessageBox.confirm('您的登陆身份已过期，请重新登陆！', '提示', {
@@ -67,17 +68,7 @@ service.interceptors.response.use(
         })
       }
       return Promise.reject(new Error(res.errmsg || 'Error'))
-    } else {
-      return res
     }
-  },
-  error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
     return Promise.reject(error)
   }
 )
