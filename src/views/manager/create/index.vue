@@ -33,7 +33,7 @@
 
 <script>
 import md5 from 'md5'
-import { addManager } from '@/api/manager'
+import { addManager, getManagerInfo } from '@/api/manager'
 export default {
   name: "ManagerCreate",
   data () {
@@ -92,7 +92,19 @@ export default {
       return this.$route.meta.isEdit
     }
   },
+  created () {
+    if (this.isEdit) {
+      this.__init()
+    }
+  },
   methods: {
+    /**获取管理员详情 */
+    async __init () {
+      let res = await getManagerInfo({
+        id: +this.$route.params.id
+      })
+      this.form.name = res.data.username
+    },
     /**添加按钮 */
     onSubmit () {
       this.$refs.form.validate(async (valid) => {

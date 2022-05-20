@@ -22,3 +22,15 @@ export function addManager (data) {
         data: { username, password }
     })
 }
+/**
+ * 获取单个管理员详情
+ * @param {Object} data 
+ * @returns {Promise}
+ */
+export function getManagerInfo (data) {
+    const { id } = data
+    return request({
+        url: `/api/web/v1/admin/${id}`,
+        method: 'get',
+    })
+}

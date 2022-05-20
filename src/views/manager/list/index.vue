@@ -24,6 +24,7 @@
         <el-table-column width="300" align="center" prop="address" label="操作">
           <template slot-scope="scope">
             <el-button type="primary" size="mini"
+              :disabled="scope.row.username==='admin'"
               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" type="danger"
               :disabled="scope.row.username==='admin'"
