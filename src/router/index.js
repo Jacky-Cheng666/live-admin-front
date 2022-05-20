@@ -71,7 +71,16 @@ export const constantRoutes = [
       meta: { title: '新增管理员', icon: 'form' },
       hidden: true
 
-    }]
+    },
+    {
+      path: 'edit/:id',
+      name: 'ManagerEdit',
+      component: () => import('@/views/manager/create/index'),
+      meta: { title: '编辑管理员', icon: 'form', isEdit: true },
+      hidden: true
+
+    }
+    ]
   },
 
   {
@@ -192,7 +201,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }

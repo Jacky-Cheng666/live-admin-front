@@ -26,6 +26,7 @@
             <el-button type="primary" size="mini"
               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" type="danger"
+              :disabled="scope.row.username==='admin'"
               @click="handleDelete(scope.$index, scope.row)">删除
             </el-button>
           </template>
@@ -86,7 +87,11 @@ export default {
       this.tableData = res.data.rows;
       this.pagination.total = res.data.count;
     },
-    handleEdit () { },
+    handleEdit (index, row) {
+      if (row.id) {
+        this.$router.push('/manager/edit/' + row.id)
+      }
+    },
     handleDelete () { },
     handleSizeChange (val) {
       this.pagination.size = val;

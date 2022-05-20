@@ -22,7 +22,8 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">添加</el-button>
+          <el-button type="primary" @click="onSubmit">{{isEdit?'保存':'添加'}}
+          </el-button>
           <el-button type="plan" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -84,6 +85,11 @@ export default {
         password: "",
         comPassword: ""
       }
+    }
+  },
+  computed: {
+    isEdit () {
+      return this.$route.meta.isEdit
     }
   },
   methods: {
