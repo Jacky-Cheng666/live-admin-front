@@ -39,13 +39,12 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 import md5 from 'md5'
 export default {
   name: 'Login',
   data () {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (!value.length) {
         callback(new Error('请输入用户名'))
       } else {
         callback()
@@ -60,8 +59,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '123456'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
