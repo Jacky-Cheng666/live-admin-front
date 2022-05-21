@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { getList } from "@/api/manager";
+import { getList, deleteManager } from "@/api/manager";
 import { parseTime } from "@/utils/index";
 export default {
   name: "ManagerIndex",
@@ -84,7 +84,7 @@ export default {
         limit: size,
       });
       this.loading = false;
-      console.log("res", res);
+      // console.log("res", res);
       this.tableData = res.data.rows;
       this.pagination.total = res.data.count;
     },
@@ -93,7 +93,19 @@ export default {
         this.$router.push('/manager/edit/' + row.id)
       }
     },
-    handleDelete () { },
+    handleDelete (index, row) {
+      this.$confirm('此操作将永久删除管理员, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        await deleteManager({ id: row.id })
+        this.$message.success('删除成功')
+        this.__init()
+      }).catch(() => {
+
+      });
+    },
     handleSizeChange (val) {
       this.pagination.size = val;
       this.pagination.page = 1;

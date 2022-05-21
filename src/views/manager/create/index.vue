@@ -33,7 +33,7 @@
 
 <script>
 import md5 from 'md5'
-import { addManager, getManagerInfo } from '@/api/manager'
+import { addManager, editManager, getManagerInfo } from '@/api/manager'
 export default {
   name: "ManagerCreate",
   data () {
@@ -112,11 +112,19 @@ export default {
           let dpassword = md5(this.form.password)
           console.log('dpassword', dpassword);
           this.loading = true
-          await addManager({
-            username: this.form.name.trim(),
-            password: dpassword
-          })
-          this.$message.success('添加成功')
+          if (!this.isEdit) {
+            await addManager({
+              username: this.form.name.trim(),
+              password: dpassword
+            })
+          } else {
+            await editManager({
+              id: this.$route.params.id,
+              username: this.form.name.trim(),
+              password: dpassword
+            })
+          }
+          this.$message.success('操作成功')
           this.$router.back()
         } else {
           console.log('error submit!!');
