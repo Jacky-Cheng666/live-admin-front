@@ -58,6 +58,8 @@ export const constantRoutes = [
   {
     path: '/manager',
     component: Layout,
+    meta: { title: '管理员', icon: 'el-icon-s-help' },
+    redirect: '/manager/index',
     children: [{
       path: 'index',
       name: 'ManagerIndex',
@@ -81,6 +83,20 @@ export const constantRoutes = [
 
     }
     ]
+  },
+  {
+    path: '/gift',
+    component: Layout,
+    name: 'Gift',
+    meta: { title: '礼物', icon: 'el-icon-s-help' },
+    redirect: '/gift/list',
+    alwaysShow: false,
+    children: [{
+      path: 'list',
+      name: 'GiftList',
+      component: () => import('@/views/gift/list/index'),
+      meta: { title: '礼物列表', icon: 'form' }
+    }]
   },
 
   {
